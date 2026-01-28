@@ -1,4 +1,4 @@
-FROM mono:slim
+FROM debian:bookworm-slim
 
 # Build-time arguments for dynamic labels
 ARG BUILD_DATE
@@ -24,15 +24,17 @@ LABEL org.opencontainers.image.description="Terraria dedicated server (v$VERSION
 LABEL org.opencontainers.image.source="https://github.com/meshi-team/terraria-server"
 LABEL org.opencontainers.image.licenses="MIT"
 
-# Install dependencies
-RUN apt-get update \
-  && apt-get upgrade -y \
-  && apt-get install --no-install-recommends -y curl \
-  && apt-get install --no-install-recommends -y nuget \
-  && apt-get install --no-install-recommends -y vim \
-  && apt-get install --no-install-recommends -y zip \
-  && apt-get install --no-install-recommends -y unzip \
-  && apt-get install --no-install-recommends -y gettext \
+# Install mono and other dependencies
+RUN apt-get update && \
+  apt-get upgrade -y && \
+  apt-get install --no-install-recommends -y mono-runtime \
+  ca-certificates \
+  curl \
+  nuget \
+  vim \
+  zip \
+  unzip \
+  gettext \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -45,7 +47,7 @@ RUN mkdir /terraria-server
 VOLUME /terraria-server/worlds
 
 # Download and extract the server
-ENV DOWNLOAD_LINK=https://terraria.org/api/download/pc-dedicated-server/terraria-server-1449.zip
+ENV DOWNLOAD_LINK=https://terraria.org/api/download/pc-dedicated-server/terraria-server-1451.zip
 
 RUN curl -L $DOWNLOAD_LINK -o terraria-server.zip \
   && unzip terraria-server.zip -d /tmp-downloads \
