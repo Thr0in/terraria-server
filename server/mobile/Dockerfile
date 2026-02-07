@@ -47,7 +47,7 @@ RUN mkdir /terraria-server
 VOLUME /terraria-server/worlds
 
 # Download and extract the server
-ENV DOWNLOAD_LINK=https://terraria.org/api/download/mobile-dedicated-server/terraria-server-1450.zip
+ENV DOWNLOAD_LINK=https://terraria.org/api/download/mobile-dedicated-server/terraria-server-1452.zip
 
 RUN curl -L $DOWNLOAD_LINK -o terraria-server.zip \
   && unzip terraria-server.zip -d /tmp-downloads \
